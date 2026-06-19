@@ -69,7 +69,7 @@ nl-bi-sql-tool/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/nl-bi-sql-tool.git
+https://github.com/diveshkumar2233/Natural-Language-Business-Intelligence-SQL-Automation-Tool
 cd nl-bi-sql-tool
 ```
 
