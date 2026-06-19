@@ -1,0 +1,133 @@
+<svg width="680" height="380" viewBox="0 0 680 380" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Natural Language Business Intelligence &amp; SQL Automation Tool — GitHub Banner</title>
+  <desc>Project banner showing title, tagline, tech stack badges, feature highlights, and auto-correction flow</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="680" height="380" fill="#0f172a" rx="12"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="680" height="4" fill="#1d9e75" rx="2"/>
+
+  <!-- Decorative dots top-left -->
+  <g fill="#1e293b">
+    <circle cx="32" cy="32" r="2"/><circle cx="56" cy="32" r="2"/><circle cx="80" cy="32" r="2"/>
+    <circle cx="32" cy="56" r="2"/><circle cx="56" cy="56" r="2"/><circle cx="80" cy="56" r="2"/>
+    <circle cx="32" cy="80" r="2"/><circle cx="56" cy="80" r="2"/><circle cx="80" cy="80" r="2"/>
+  </g>
+  <!-- Decorative dots bottom-right -->
+  <g fill="#1e293b">
+    <circle cx="600" cy="300" r="2"/><circle cx="624" cy="300" r="2"/><circle cx="648" cy="300" r="2"/>
+    <circle cx="600" cy="324" r="2"/><circle cx="624" cy="324" r="2"/><circle cx="648" cy="324" r="2"/>
+    <circle cx="600" cy="348" r="2"/><circle cx="624" cy="348" r="2"/><circle cx="648" cy="348" r="2"/>
+  </g>
+
+  <!-- Icon circle -->
+  <circle cx="112" cy="72" r="28" fill="#1d9e75" fill-opacity="0.18"/>
+  <text x="112" y="80" text-anchor="middle" font-size="26" font-family="sans-serif">&#x1F9E0;</text>
+
+  <!-- Title -->
+  <text x="152" y="58" font-family="sans-serif" font-size="22" font-weight="700" fill="#f1f5f9">Natural Language BI</text>
+  <text x="152" y="84" font-family="sans-serif" font-size="22" font-weight="700" fill="#1d9e75">&amp; SQL Automation Tool</text>
+
+  <!-- Tagline -->
+  <text x="40" y="120" font-family="sans-serif" font-size="13" fill="#94a3b8">Ask in plain English &#x2192; get optimized SQL + results instantly. ~0 SQL knowledge needed.</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="136" x2="640" y2="136" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- Tech Badges -->
+  <rect x="40" y="148" width="90" height="26" rx="6" fill="#1d9e75" fill-opacity="0.15"/>
+  <rect x="40" y="148" width="90" height="26" rx="6" fill="none" stroke="#1d9e75" stroke-width="0.8"/>
+  <text x="85" y="165" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#1d9e75">&#x26A1; Groq AI</text>
+
+  <rect x="138" y="148" width="80" height="26" rx="6" fill="#534ab7" fill-opacity="0.15"/>
+  <rect x="138" y="148" width="80" height="26" rx="6" fill="none" stroke="#534ab7" stroke-width="0.8"/>
+  <text x="178" y="165" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#afa9ec">LLaMA 3</text>
+
+  <rect x="226" y="148" width="76" height="26" rx="6" fill="#059669" fill-opacity="0.15"/>
+  <rect x="226" y="148" width="76" height="26" rx="6" fill="none" stroke="#059669" stroke-width="0.8"/>
+  <text x="264" y="165" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#6ee7b7">FastAPI</text>
+
+  <rect x="310" y="148" width="76" height="26" rx="6" fill="#e24b4a" fill-opacity="0.15"/>
+  <rect x="310" y="148" width="76" height="26" rx="6" fill="none" stroke="#e24b4a" stroke-width="0.8"/>
+  <text x="348" y="165" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#f09595">Streamlit</text>
+
+  <rect x="394" y="148" width="68" height="26" rx="6" fill="#378add" fill-opacity="0.15"/>
+  <rect x="394" y="148" width="68" height="26" rx="6" fill="none" stroke="#378add" stroke-width="0.8"/>
+  <text x="428" y="165" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#85b7eb">SQLite</text>
+
+  <rect x="470" y="148" width="68" height="26" rx="6" fill="#ba7517" fill-opacity="0.15"/>
+  <rect x="470" y="148" width="68" height="26" rx="6" fill="none" stroke="#ba7517" stroke-width="0.8"/>
+  <text x="504" y="165" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#fac775">Python</text>
+
+  <rect x="546" y="148" width="56" height="26" rx="6" fill="#475569" fill-opacity="0.3"/>
+  <rect x="546" y="148" width="56" height="26" rx="6" fill="none" stroke="#475569" stroke-width="0.8"/>
+  <text x="574" y="165" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#94a3b8">MIT</text>
+
+  <!-- Feature Cards -->
+  <rect x="40" y="192" width="185" height="74" rx="8" fill="#1e293b" stroke="#334155" stroke-width="0.8"/>
+  <circle cx="64" cy="216" r="14" fill="#1d9e75" fill-opacity="0.2"/>
+  <text x="64" y="221" text-anchor="middle" font-size="14" font-family="sans-serif">&#x1F916;</text>
+  <text x="86" y="213" font-family="sans-serif" font-size="12" font-weight="600" fill="#e2e8f0">AI SQL Generation</text>
+  <text x="86" y="229" font-family="sans-serif" font-size="10" fill="#64748b">Groq LLaMA 3 converts</text>
+  <text x="86" y="242" font-family="sans-serif" font-size="10" fill="#64748b">plain English &#x2192; SQL</text>
+  <rect x="48" y="251" width="100" height="6" rx="3" fill="#0f172a"/>
+  <rect x="48" y="251" width="78" height="6" rx="3" fill="#1d9e75" fill-opacity="0.7"/>
+  <text x="154" y="258" font-family="sans-serif" font-size="9" fill="#1d9e75">88% accuracy</text>
+
+  <rect x="247" y="192" width="185" height="74" rx="8" fill="#1e293b" stroke="#334155" stroke-width="0.8"/>
+  <circle cx="271" cy="216" r="14" fill="#534ab7" fill-opacity="0.2"/>
+  <text x="271" y="221" text-anchor="middle" font-size="14" font-family="sans-serif">&#x1F504;</text>
+  <text x="293" y="213" font-family="sans-serif" font-size="12" font-weight="600" fill="#e2e8f0">Auto-Correction</text>
+  <text x="293" y="229" font-family="sans-serif" font-size="10" fill="#64748b">Retries up to 3x using</text>
+  <text x="293" y="242" font-family="sans-serif" font-size="10" fill="#64748b">error trace as context</text>
+  <circle cx="258" cy="257" r="4" fill="#534ab7" fill-opacity="0.8"/>
+  <circle cx="272" cy="257" r="4" fill="#534ab7" fill-opacity="0.5"/>
+  <circle cx="286" cy="257" r="4" fill="#534ab7" fill-opacity="0.25"/>
+  <text x="298" y="261" font-family="sans-serif" font-size="9" fill="#afa9ec">3 retry attempts</text>
+
+  <rect x="454" y="192" width="185" height="74" rx="8" fill="#1e293b" stroke="#334155" stroke-width="0.8"/>
+  <circle cx="478" cy="216" r="14" fill="#ba7517" fill-opacity="0.2"/>
+  <text x="478" y="221" text-anchor="middle" font-size="14" font-family="sans-serif">&#x1F6E1;&#xFE0F;</text>
+  <text x="500" y="213" font-family="sans-serif" font-size="12" font-weight="600" fill="#e2e8f0">Safety Guardrails</text>
+  <text x="500" y="229" font-family="sans-serif" font-size="10" fill="#64748b">Read-only enforcement</text>
+  <text x="500" y="242" font-family="sans-serif" font-size="10" fill="#64748b">+ injection prevention</text>
+  <text x="462" y="261" font-family="sans-serif" font-size="9" fill="#ef9f27">&#x2713; SELECT only  &#x2713; Safe execution</text>
+
+  <!-- Flow section -->
+  <text x="40" y="292" font-family="sans-serif" font-size="11" font-weight="600" fill="#475569" letter-spacing="1">HOW IT WORKS</text>
+
+  <rect x="40" y="302" width="100" height="36" rx="6" fill="#1e293b" stroke="#1d9e75" stroke-width="1"/>
+  <text x="90" y="316" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#1d9e75">Plain English</text>
+  <text x="90" y="330" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">question</text>
+
+  <line x1="143" y1="320" x2="166" y2="320" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="168" y="302" width="100" height="36" rx="6" fill="#1e293b" stroke="#534ab7" stroke-width="1"/>
+  <text x="218" y="316" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#afa9ec">Groq AI</text>
+  <text x="218" y="330" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">generates SQL</text>
+
+  <line x1="271" y1="320" x2="294" y2="320" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="296" y="302" width="100" height="36" rx="6" fill="#1e293b" stroke="#378add" stroke-width="1"/>
+  <text x="346" y="316" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#85b7eb">Execute</text>
+  <text x="346" y="330" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">safely on DB</text>
+
+  <line x1="399" y1="320" x2="422" y2="320" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="424" y="302" width="100" height="36" rx="6" fill="#1e293b" stroke="#1d9e75" stroke-width="1"/>
+  <text x="474" y="316" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#1d9e75">Results</text>
+  <text x="474" y="330" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#64748b">+ CSV export</text>
+
+  <path d="M346 338 Q346 362 218 362 Q168 362 168 338" fill="none" stroke="#e24b4a" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <text x="282" y="358" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#f09595">auto-correct on error</text>
+
+  <rect x="544" y="306" width="100" height="32" rx="16" fill="#0f172a" stroke="#1d9e75" stroke-width="1"/>
+  <text x="594" y="325" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="600" fill="#1d9e75">~0 SQL needed</text>
+</svg>
