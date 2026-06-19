@@ -1,431 +1,283 @@
-<div align="center">
+# 🧠 Natural Language Business Intelligence & SQL Automation Tool
 
-# 🔍 Text-to-SQL Engine
+> Describe what you need in plain English — get production-ready, optimized SQL back with query explanation, schema awareness, and execution preview. **~0 SQL knowledge needed by end users.**
 
-### Convert plain-English questions into SQL — instantly
-
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.40-FF4B4B?style=flat&logo=streamlit&logoColor=white)](https://streamlit.io)
-[![Claude AI](https://img.shields.io/badge/Claude-Sonnet_4.6-7C3AED?style=flat&logo=anthropic&logoColor=white)](https://anthropic.com)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-supported-336791?style=flat&logo=postgresql&logoColor=white)](https://postgresql.org)
-[![SQLite](https://img.shields.io/badge/SQLite-zero_setup-003B57?style=flat&logo=sqlite&logoColor=white)](https://sqlite.org)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat)](LICENSE)
-
-<br/>
-
-> **Gen AI Data Analyst Portfolio Project**
->
-> Ask a question in plain English → Claude generates SQL → query runs on your database → results returned with a plain-language explanation.
-> No SQL knowledge required.
-
-<br/>
+[![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)](https://python.org)
+[![Groq AI](https://img.shields.io/badge/Groq_AI-LLaMA_3-orange?logo=groq)](https://groq.com)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.111-green?logo=fastapi)](https://fastapi.tiangolo.com)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.35-red?logo=streamlit)](https://streamlit.io)
+[![SQLite](https://img.shields.io/badge/SQLite-Database-lightgrey?logo=sqlite)](https://sqlite.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
 ---
 
-</div>
+## 📸 Preview
 
-## ✨ What It Does
+![Natural Language BI & SQL Automation Tool](banner.svg)
 
-| Without this tool | With this tool |
-|---|---|
-| "I need the top 5 customers by spend" → wait 2 days for analyst | Ask directly → get results in 30 seconds |
-| Write SQL manually, debug errors | Claude writes and auto-corrects SQL |
-| Non-technical users blocked | Anyone can query the database |
-| Manual report writing | Auto-generated plain-English explanations |
+![App Screenshot](screenshot.png)
 
 ---
 
-## 🗂 Project Structure
+## 🎯 What It Does
+
+This tool bridges the gap between **business analysts** and **raw databases** — no SQL expertise required. Type a question in plain English, and the system:
+
+1. Understands your database schema automatically
+2. Generates optimized SQL using **Groq AI (LLaMA 3)**
+3. Executes the query safely (read-only, injection-safe)
+4. Returns results + explanation in seconds
+5. Auto-corrects any SQL errors using the error trace as context
+
+---
+
+## ✨ Features
+
+- 🤖 **Groq AI (LLaMA 3)** — Ultra-fast, low-latency SQL generation from natural language
+- 🔄 **Auto-Correction Loop** — Retries up to 3 times on SQL errors, re-prompting with error context
+- 🗺️ **Dynamic Schema Injection** — Full schema passed into LLM prompt for accurate multi-table reasoning
+- 🛡️ **Query Safety Guardrails** — Read-only enforcement and SQL injection prevention
+- 📊 **Streamlit Dashboard** — Query history, schema viewer, sample questions, real-time results
+- 📤 **One-Click Export** — Download results as CSV or JSON for reporting
+- ⚡ **FastAPI Backend** — RESTful endpoints for `/query/`, `/schema/`, and `/health/`
+- 🗄️ **SQLite Demo Database** — 4 normalized tables, 8 customers, 8 products, 10 orders
+
+---
+
+## 🗂️ Project Structure
 
 ```
-text-to-sql-engine/
-│
+nl-bi-sql-tool/
 ├── app/
-│   ├── api/
-│   │   └── routes.py           ← FastAPI /query/ endpoint
-│   ├── core/
-│   │   ├── config.py           ← Loads .env settings
-│   │   └── claude_service.py   ← Claude API + auto-correct loop
-│   ├── db/
-│   │   └── database.py         ← SQLAlchemy + schema extractor
-│   ├── schemas/
-│   │   └── query.py            ← Pydantic request/response models
-│   └── main.py                 ← FastAPI app entry point
-│
-├── .env.example                ← Copy to .env, add your API key
-├── .gitignore
+│   ├── api/routes.py          ← FastAPI endpoints (/query, /schema, /health)
+│   ├── core/config.py         ← Reads .env (Groq API key, DB URL)
+│   ├── core/groq_service.py   ← Groq AI + auto-correct loop
+│   ├── db/database.py         ← SQLAlchemy engine + schema extractor
+│   ├── schemas/query.py       ← Pydantic request/response models
+│   └── main.py                ← FastAPI app factory
+├── seed_db.py                 ← Seeds demo e-commerce database
+├── streamlit_app.py           ← Full interactive UI
+├── .env.example               ← Copy → .env, add your Groq API key
 ├── requirements.txt
-├── seed_db.py                  ← Creates demo tables + data
-└── streamlit_app.py            ← Streamlit chat UI
+└── README.md
 ```
 
 ---
 
-## ⚙️ How It Works
+## 🚀 Quick Start
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                                                             │
-│   1. User types question         "Top 5 customers by spend" │
-│              │                                              │
-│              ▼                                              │
-│   2. Streamlit UI          POST /query/ → FastAPI           │
-│              │                                              │
-│              ▼                                              │
-│   3. Claude API called     Question + DB schema injected    │
-│              │             into prompt automatically        │
-│              ▼                                              │
-│   4. SQL generated         SELECT c.name, SUM(o.total)...  │
-│              │                                              │
-│              ▼                                              │
-│   5. SQL executed          PostgreSQL or SQLite             │
-│              │                                              │
-│     ┌────────┴────────┐                                     │
-│     │   Error?        │ Yes → Claude sees error trace       │
-│     │                 │       and auto-corrects SQL         │
-│     └────────┬────────┘                                     │
-│              │ No                                           │
-│              ▼                                              │
-│   6. Claude explains       Plain-English summary of query   │
-│              │                                              │
-│              ▼                                              │
-│   7. Results returned      Table + SQL + explanation        │
-│                            + CSV/JSON download              │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 🚀 Quick Start — Windows + VS Code
-
-### Prerequisites
-
-- [Python 3.10+](https://www.python.org/downloads/) — check with `python --version`
-- [VS Code](https://code.visualstudio.com/) with Python extension
-- [Anthropic API key](https://console.anthropic.com) — free to sign up
-
----
-
-### Step 1 — Clone & Open in VS Code
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/text-to-sql-engine.git
+git clone https://github.com/<your-username>/nl-bi-sql-tool.git
+cd nl-bi-sql-tool
 ```
 
-Then in VS Code: `File → Open Folder → select text-to-sql-engine`
+### 2. Create a Virtual Environment
 
-Open the terminal: **Ctrl + ~**
-
----
-
-### Step 2 — Create Virtual Environment
-
-```bash
+**Windows (PowerShell):**
+```powershell
 python -m venv venv
-```
-
-Activate it (Windows):
-
-```bash
 venv\Scripts\activate
 ```
 
-✅ You should see `(venv)` appear in your terminal prompt.
+**macOS / Linux:**
+```bash
+python -m venv venv
+source venv/bin/activate
+```
 
----
-
-### Step 3 — Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-> Takes about 1–2 minutes. You'll install: `anthropic`, `fastapi`, `uvicorn`, `sqlalchemy`, `streamlit`, `pandas`, `pydantic`.
-
----
-
-### Step 4 — Set Up Your API Key
+### 4. Configure Environment Variables
 
 ```bash
-copy .env.example .env
+cp .env.example .env        # Windows: copy .env.example .env
 ```
 
-Open `.env` and fill in your values:
+Open `.env` and fill in:
 
-```dotenv
-# Your Anthropic API key — get it at https://console.anthropic.com
-ANTHROPIC_API_KEY=sk-ant-your-real-key-here
-CLAUDE_MODEL=claude-sonnet-4-6
-
-# Leave DATABASE_URL blank → SQLite is used automatically (no setup needed)
-DATABASE_URL=
-
-# Default local SQLite database
-SQLITE_URL=sqlite:///./text2sql.db
-
-MAX_ROWS=200
-QUERY_TIMEOUT_SECONDS=10
+```env
+GROQ_API_KEY=gsk_...
+DATABASE_URL=sqlite:///./sql_app.db
 ```
 
-> ⚠️ **Never commit `.env` to GitHub** — it's already in `.gitignore`
+Get your free Groq API key at [console.groq.com](https://console.groq.com).
 
----
-
-### Step 5 — Seed the Database
-
-This creates 4 demo tables with sample data so you can test right away:
+### 5. Seed the Demo Database
 
 ```bash
 python seed_db.py
 ```
 
-Expected output:
+Creates `sql_app.db` with a realistic e-commerce dataset:
 
-```
-✅ Database seeded successfully!
-   • 8 customers
-   • 8 products
-   • 10 orders
-   • 18 order items
-```
+| Table | Records | Description |
+|---|---|---|
+| `customers` | 8 | Names, emails, cities across India |
+| `products` | 8 | Electronics, Office, Furniture, Stationery |
+| `orders` | 10 | Jan–May 2024, various statuses |
+| `order_items` | 20+ | Line items linking orders ↔ products |
 
-**Tables created:**
-
-| Table | Columns |
-|---|---|
-| `customers` | id, name, email, city, country, joined_date |
-| `products` | id, name, category, price, stock |
-| `orders` | id, customer_id, order_date, status, total |
-| `order_items` | id, order_id, product_id, quantity, unit_price |
-
----
-
-### Step 6 — Start FastAPI Backend
-
-Open a **new terminal tab** (click `+` in the VS Code terminal panel):
+### 6. Start the FastAPI Backend
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-You should see:
+API live at `http://localhost:8000` — Swagger docs at `http://localhost:8000/docs`
 
-```
-INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-INFO:     Application startup complete.
-```
-
-**Verify it's working:** Open http://127.0.0.1:8000 in your browser → should return:
-
-```json
-{"status": "ok", "db": "sqlite", "model": "claude-sonnet-4-6"}
-```
-
-**Browse the interactive API docs:** http://127.0.0.1:8000/docs
-
----
-
-### Step 7 — Start Streamlit Frontend
-
-Open **another new terminal tab** and run:
+### 7. Launch the Streamlit UI
 
 ```bash
 streamlit run streamlit_app.py
 ```
 
-Your browser opens automatically at **http://localhost:8501** 🎉
+Opens at `http://localhost:8501`
 
 ---
 
-### Step 8 — Ask Your First Question!
+## 🔌 API Reference
 
-Try these example questions in the Streamlit UI:
-
-```
-Show top 5 customers by total order value
-Which products have stock below 50?
-What is total revenue by product category?
-How many orders were placed each month in 2024?
-Which customer has placed the most orders?
-List all orders that are pending or shipped
-```
-
-Click **▶ Run Query** — you'll see:
-1. The generated SQL
-2. A plain-English explanation of what the query does
-3. The results table
-4. Download buttons for CSV and JSON
-
----
-
-## 🐘 Using PostgreSQL (Production Setup)
-
-SQLite works perfectly for local development. To use PostgreSQL:
-
-1. **Install PostgreSQL** on Windows: https://www.postgresql.org/download/windows/
-
-2. **Create a database:**
-   ```sql
-   CREATE DATABASE text2sql_demo;
-   ```
-
-3. **Update `.env`:**
-   ```dotenv
-   DATABASE_URL=postgresql+psycopg2://postgres:yourpassword@localhost:5432/text2sql_demo
-   ```
-
-4. **Re-seed the database:**
-   ```bash
-   python seed_db.py
-   ```
-
----
-
-## 📡 API Reference
-
-### `POST /query/`
-
-Convert a plain-English question to SQL and execute it.
+### `POST /api/query/`
+Convert a plain-English question to SQL and return results.
 
 **Request:**
 ```json
-{
-  "question": "Show top 5 customers by total spend"
-}
+{ "question": "Which customer has spent the most money overall?" }
 ```
 
 **Response:**
 ```json
 {
-  "question": "Show top 5 customers by total spend",
-  "sql": "SELECT c.name, SUM(o.total) AS total_spend FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.name ORDER BY total_spend DESC LIMIT 5",
-  "explanation": "This query joins customers with their orders, adds up all order totals per customer, and returns the top 5 by spending amount.",
-  "rows": [...],
-  "row_count": 5,
-  "columns": ["name", "total_spend"]
+  "question": "Which customer has spent the most money overall?",
+  "sql": "SELECT c.name, SUM(oi.quantity * oi.unit_price) AS total_spend FROM customers c JOIN orders o ON c.id = o.customer_id JOIN order_items oi ON o.id = oi.order_id GROUP BY c.id ORDER BY total_spend DESC LIMIT 1",
+  "results": [{ "name": "Alice Johnson", "total_spend": 82500.0 }],
+  "row_count": 1,
+  "attempts": 1,
+  "error": null
 }
 ```
 
-**Example with curl:**
-```bash
-curl -X POST http://127.0.0.1:8000/query/ \
-  -H "Content-Type: application/json" \
-  -d "{\"question\": \"Show top 5 customers by total spend\"}"
+### `GET /api/schema/`
+Returns all tables, columns, types, and foreign keys.
+
+### `GET /api/health/`
+Returns `{"status": "ok"}`.
+
+---
+
+## 💡 Sample Business Questions
+
+| Question | SQL Concept |
+|---|---|
+| Show all customers from Mumbai | `WHERE` filter |
+| What are the top 3 best-selling products by quantity? | `GROUP BY` + `ORDER BY` |
+| List all delivered orders with their total value | Multi-table `JOIN` |
+| Which customer has spent the most money? | Aggregation + `LIMIT` |
+| How many orders were placed each month in 2024? | Date functions |
+| Show products with stock below 50 | Range filter |
+| What is the total revenue per product category? | `GROUP BY` category |
+| List all pending or shipped orders | `IN` clause |
+
+---
+
+## 🔄 How the Auto-Correction Loop Works
+
+```
+Plain English Question
+         │
+         ▼
+  Groq AI (LLaMA 3)
+  generates SQL
+  with full schema context
+         │
+         ▼
+  Execute SQL safely
+         ├── ✅ Success → Return results + row count
+         └── ❌ Error ──→ Send SQL + error trace back to Groq
+                                    │
+                                    ▼
+                             Groq fixes SQL
+                             (attempt 2)
+                                    │
+                                    ▼
+                             Execute again
+                                    ├── ✅ Success → Return results
+                                    └── ❌ Error ──→ Attempt 3
+                                                      │
+                                                      ▼
+                                               Return error message
 ```
 
 ---
 
-### All Endpoints
+## 🛡️ Safety & Guardrails
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/` | Health check — returns status, db type, model |
-| `POST` | `/query/` | Main endpoint: question → SQL → results |
-| `GET` | `/query/schema` | Returns current database schema as text |
-| `GET` | `/docs` | Swagger interactive API documentation |
+- **Read-only enforcement** — Only `SELECT` statements are permitted; `INSERT`, `UPDATE`, `DELETE`, `DROP` are blocked
+- **SQL injection prevention** — Queries run via parameterized SQLAlchemy execution
+- **Error isolation** — Failed queries never affect database state
+- **Attempt capping** — Maximum 3 LLM correction attempts to prevent infinite loops
 
 ---
 
-## 🛡️ Safety Features
+## 📋 Resume Bullets (Data Analyst)
 
-| Feature | How it works |
-|---|---|
-| **Read-only enforcement** | Only `SELECT` queries allowed — `INSERT`, `UPDATE`, `DELETE`, `DROP` are rejected |
-| **SQL injection prevention** | Input validation layer before any query reaches the database |
-| **Auto-correction loop** | If SQL fails, Claude receives the error trace and rewrites the query automatically |
-| **Row limit** | `MAX_ROWS` cap in `.env` prevents massive result dumps |
-| **CANNOT_ANSWER guard** | Claude returns a safe fallback if the question can't be answered from the schema |
+```
+Natural Language Business Intelligence & SQL Automation Tool
+Tech: Python | Groq AI (LLaMA 3) | FastAPI | Streamlit | SQLAlchemy | SQLite | Pandas
+
+• Engineered a Text-to-SQL system using Groq AI (LLaMA 3) and SQLAlchemy that converts
+  plain-English business questions into optimized SQL queries with near real-time response
+
+• Built dynamic schema injection into LLM prompt context, enabling the model to reason
+  across multi-table joins, aggregations, and time-series filters with high first-pass accuracy
+
+• Developed FastAPI backend with query execution, result formatting, and natural language
+  explanation — enabling non-technical stakeholders to self-serve data without SQL knowledge
+
+• Added query safety guardrails (read-only enforcement, injection prevention) and an
+  auto-correction loop that re-prompts Groq on SQL errors using the error trace as context
+
+• Built Streamlit dashboard with query history, schema viewer, and one-click CSV/JSON
+  export — reducing ad-hoc reporting time for business teams
+```
 
 ---
 
 ## 🧰 Tech Stack
 
-| Layer | Technology | Purpose |
-|---|---|---|
-| AI / LLM | Claude API (`claude-sonnet-4-6`) | Question → SQL generation + explanation |
-| Backend | FastAPI + Uvicorn | REST API, request handling, orchestration |
-| ORM | SQLAlchemy | Database connection + schema introspection |
-| Database | SQLite (dev) / PostgreSQL (prod) | Data storage and query execution |
-| Frontend | Streamlit | Chat UI, results table, export |
-| Validation | Pydantic v2 | Request/response schema validation |
-| Language | Python 3.10+ | Core language |
-
----
-
-## 🐛 Troubleshooting
-
-| Problem | Fix |
+| Layer | Technology |
 |---|---|
-| `ModuleNotFoundError` | Make sure venv is active: `venv\Scripts\activate` |
-| `Connection refused` in Streamlit | FastAPI must be running first in a separate terminal tab |
-| `Invalid API key` | Open `.env` and check `ANTHROPIC_API_KEY` is correct |
-| `Table not found` | Run `python seed_db.py` before starting the app |
-| Port 8000 already in use | Use `uvicorn app.main:app --reload --port 8001` |
-| Streamlit won't open | Try http://localhost:8501 manually in your browser |
+| AI / LLM | Groq AI — LLaMA 3 (ultra-low latency inference) |
+| Backend API | FastAPI + Uvicorn |
+| Database ORM | SQLAlchemy 2.0 |
+| Database | SQLite (dev) / PostgreSQL-ready (prod) |
+| Frontend UI | Streamlit |
+| Data Processing | Pandas |
+| Config & Env | Pydantic Settings + python-dotenv |
 
 ---
 
-## 📄 Resume Bullets
+## 🪟 Windows-Specific Notes
 
-Add these to your CV under **Projects** or **Experience**:
-
-```
-Text-to-SQL Engine  |  Python · Claude API · FastAPI · SQLAlchemy · PostgreSQL · Streamlit
-
-• Engineered a Text-to-SQL system using Claude API and SQLAlchemy that converts
-  plain-English questions into optimized SQL queries across PostgreSQL and SQLite,
-  achieving 88% first-pass query accuracy across 200+ test cases.
-
-• Built dynamic schema injection into LLM prompt context, enabling multi-table join
-  reasoning, aggregations, and time-series filters — reducing query errors by 65%.
-
-• Developed a FastAPI backend with query execution, result formatting, and natural-
-  language SQL explanations, cutting analyst ticket volume by 40%.
-
-• Implemented query safety guardrails (read-only enforcement, injection prevention)
-  and an LLM auto-correction loop that resolves 90% of SQL errors automatically.
-
-• Designed a Streamlit UI with schema explorer, query history, and CSV/JSON export
-  adopted by 15 non-technical stakeholders within 2 weeks of deployment.
-```
+- Use **PowerShell** or **Git Bash** — avoid old `cmd.exe`
+- Activate venv: `venv\Scripts\activate` (PowerShell) or `venv\Scripts\activate.bat` (cmd)
+- If `uvicorn` not found: `python -m uvicorn app.main:app --reload`
+- If port 8000 is busy: add `--port 8001` and update `API_BASE` in `streamlit_app.py`
 
 ---
 
-## 📌 Push to GitHub
+## 🤝 Contributing
 
-```bash
-git init
-git add .
-git commit -m "feat: Text-to-SQL Engine with Claude AI"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/text-to-sql-engine.git
-git push -u origin main
-```
-
-> ✅ `.env` is already in `.gitignore` — your API key will NOT be pushed.
+Pull requests are welcome! Please open an issue first to discuss major changes.
 
 ---
 
-## 📁 Two Terminals Required
+## 📄 License
 
-```
-Terminal 1 (FastAPI)          Terminal 2 (Streamlit)
-──────────────────────        ──────────────────────
-(venv) > uvicorn              (venv) > streamlit run
-        app.main:app                  streamlit_app.py
-        --reload
-                   
-Runs on: localhost:8000       Runs on: localhost:8501
-         ↑                             ↑
-         API backend           UI connects here
-```
-
----
-
-<div align="center">
-
-Built with ❤️ using [Anthropic Claude](https://anthropic.com) · [FastAPI](https://fastapi.tiangolo.com) · [Streamlit](https://streamlit.io)
-
-</div>
-"# Natural-Language-Business-Intelligence-SQL-Automation-Tool" 
+MIT © 2024
