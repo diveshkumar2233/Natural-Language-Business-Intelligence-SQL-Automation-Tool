@@ -7,7 +7,7 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111-green?logo=fastapi)](https://fastapi.tiangolo.com)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.35-red?logo=streamlit)](https://streamlit.io)
 [![SQLite](https://img.shields.io/badge/SQLite-Database-lightgrey?logo=sqlite)](https://sqlite.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+
 
 ---
 
